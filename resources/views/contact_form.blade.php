@@ -12,7 +12,7 @@
             <form method="POST" action="{{ route("contact_form_process") }}" class="space-y-5 mt-5">
                 @csrf
 
-                <input name="email" type="text" class="w-full h-12 border border-gray-800 @error('email') border-red-500 @enderror rounded px-3" placeholder="Email" />
+                <input name="email" type="text" class="w-full h-12 border border-gray-800 @error('email') border-red-500 @enderror rounded px-3" placeholder="Email" @if (auth("web")->check() == true) value="{{ Auth::user()->email }}" @endif/>
                 @error('email')
                 <p class="text-red-500">{{ $message }}</p>
                 @enderror
