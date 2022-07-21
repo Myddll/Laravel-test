@@ -5,7 +5,7 @@
 
     <div class="h-screen bg-white flex flex-col space-y-10 justify-center items-center">
         <div class="bg-white w-96 shadow-xl rounded p-5">
-            <h1 class="text-3xl text-stone-900 font-medium">Вход</h1>
+            <h1 class="text-3xl text-stone-900 font-medium">Вход в админку</h1>
 
             <form action="{{route("admin.login_process")}}" method="POST" class="space-y-5 mt-5">
                 @csrf

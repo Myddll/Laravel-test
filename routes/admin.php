@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::middleware("guest.admin")->group(function () {
+Route::middleware("guest:admin")->group(function () {
     Route::get("login", [\App\Http\Controllers\Admin\AuthController::class, 'index'])->name("login");
     Route::post("login_process", [\App\Http\Controllers\Admin\AuthController::class, 'login'])->name("login_process");
 });
