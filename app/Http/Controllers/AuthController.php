@@ -36,16 +36,16 @@ class AuthController extends Controller
         return redirect(route("home"));
     }
 
-    public function showLoginForm()
-    {
-        return view("auth.login");
-    }
-
     public function logout()
     {
         auth("web")->logout();
 
         return redirect(route("home"));
+    }
+
+    public function showLoginForm()
+    {
+        return view("auth.login");
     }
 
     // Получаем данные с реквест формы LoginForm и входим
