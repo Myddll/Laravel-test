@@ -14,7 +14,7 @@
         <div class="sm:mb-0 self-center">
 
             @auth("web")
-                Привет, <b>{{ auth("web")->user()->name }}</b>! <a href="{{ route("logout") }}" class="text-md no-underline text-stone-900 hover:text-stone-500">Выйти?</a>
+                Привет, <b>{{ auth("web")->user()->name }}</b>! <a href="{{ route("logout") }}" class="text-md underline hover:no-underline text-stone-900 hover:text-stone-500">Выйти?</a>
             @endauth
             @guest("web")
                 <a href="{{ route("login") }}" class="text-md no-underline text-stone-900 hover:text-stone-500">Войти</a>
