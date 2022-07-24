@@ -7,7 +7,7 @@
         <h3 class="text-gray-700 text-3xl font-medium">Товары</h3>
 
         <div class="mt-8">
-            <a href="{{ route("admin.posts.create") }}" class="text-indigo-600 hover:text-indigo-900">Добавить</a>
+            <a href="{{ route("admin.products.create") }}" class="text-indigo-600 hover:text-indigo-900">Добавить</a>
         </div>
 
         <div class="flex flex-col mt-8">
@@ -31,8 +31,8 @@
                                 </td>
 
                                 <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
-                                    <a href="{{ route("admin.posts.edit", $product->id) }}" class="text-indigo-600 hover:text-indigo-900">Редактировать</a>
-                                    <form method="POST" action="{{ route("admin.posts.destroy", $product->id) }}">
+                                    <a href="{{ route("admin.products.edit", $product->id) }}" class="text-indigo-600 hover:text-indigo-900">Редактировать</a>
+                                    <form method="POST" action="{{ route("admin.products.destroy", $product->id) }}">
                                         @csrf
 
                                         @method("DELETE")
@@ -44,6 +44,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $products->links() }}
                 </div>
             </div>
         </div>
