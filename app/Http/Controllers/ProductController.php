@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BuyForm;
 use App\Http\Requests\CommentForm;
+use App\Http\Requests\DeleteCommentsRequest;
 use App\Mail\BuyMail;
+use App\Models\Comment;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,13 +36,26 @@ class ProductController extends Controller
         ]);
     }
 
-    public function comment($id, CommentForm $request)
+    public function createComment($id, CommentForm $request)
     {
         $data = $request->only(["text","user_id"]);
         $product = Product::findOrFail($id);
 
         $product->comments()->create(["user_id" => $data['user_id'], "product_id" => $id, "text" => $data['text']]);
         return redirect(route("products.show", $id));
+    }
+
+    public function deleteComment($id, DeleteCommentsRequest $request)
+    {
+        $comment = Comment::findOrFail($id);
+        $productId = $comment['product_id'];
+        if (auth("web")->id() === $comment->user_id)
+        {
+            $comment->destroy($id);
+            return redirect(route("products.show", $productId));
+        }
+
+        return back()->withErrors("У вас нет прав для выполнения данной команды");
     }
 
     public function buy($id, BuyForm $request)

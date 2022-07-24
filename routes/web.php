@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 // Роутинги, доступные только зарегестрированным
 Route::middleware("auth")->group(function (){
     Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
-    Route::post('/products/comment/{id}', [\App\Http\Controllers\ProductController::class, 'comment'])->name('comment');
+    Route::post('/products/comment/create/{id}', [\App\Http\Controllers\ProductController::class, 'createComment'])->name('createComment');
+    Route::post('/products/comment/delete/{id}', [\App\Http\Controllers\ProductController::class, 'deleteComment'])->name('deleteComment');
     Route::post('/products/buy/{id}', [\App\Http\Controllers\ProductController::class, 'buy'])->name('buy');
     //Route::get('/me', [\App\Http\Controllers\AuthController::class, 'showRegisterForm'])->name('me');
 });

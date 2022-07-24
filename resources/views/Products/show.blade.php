@@ -28,7 +28,7 @@
 
         <div>
             <section class="rounded-b-lg mt-4">
-                <form action="{{ route("comment", $product->id) }}" method="POST">
+                <form action="{{ route("createComment", $product->id) }}" method="POST">
                     @csrf
 
                     <textarea name="text" class="w-full shadow-inner p-4 border-0 mb-4 rounded-lg focus:shadow-outline text-2xl" placeholder="Ваш комментарий..." spellcheck="false"></textarea>
@@ -49,6 +49,12 @@
 
 
                         <p style="width: 90%" class="text-stone-900 text-lg text-center md:text-left ">{{ $comment->text }}</p>
+                        @if(auth("web")->id() === $comment->user_id)
+                            <form action="{{ route("deleteComment", $comment->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="text-red-600 hover:text-red-900">Удалить</button>
+                            </form>
+                        @endif
                     </div>
                     @endforeach
                 </div>
