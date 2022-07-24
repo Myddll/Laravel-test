@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\EditCommentRequest;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
-class ComentsController extends Controller
+class CommentsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +16,10 @@ class ComentsController extends Controller
      */
     public function index()
     {
-        //
+        $comments = Comment::orderBy("created_at", "DESC")->paginate(10);
+        return view("admin.comments.index", [
+            "comments" => $comments,
+        ]);
     }
 
     /**
@@ -57,7 +62,10 @@ class ComentsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+        return view("admin.comments.edit", [
+            "comment" => $comment,
+        ]);
     }
 
     /**
@@ -67,9 +75,13 @@ class ComentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditCommentRequest $request, $id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+        $data = $request->validated();
+
+        $comment->update($data);
+        return redirect(route("admin.comments.index"));
     }
 
     /**
@@ -80,6 +92,7 @@ class ComentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Comment::destroy($id);
+        return redirect(route("admin.comments.index"));
     }
 }
