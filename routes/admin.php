@@ -19,6 +19,7 @@ Route::middleware("guest:admin")->group(function () {
 
 Route::middleware("auth:admin")->group(function () {
     Route::resource("products", \App\Http\Controllers\Admin\ProductController::class);
+    Route::resource("users", \App\Http\Controllers\Admin\UserController::class);
     Route::get("logout", [\App\Http\Controllers\Admin\AuthController::class, 'logout'])->name("logout");
 });
 
