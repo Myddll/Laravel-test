@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ForgotForm;
 use App\Http\Requests\LoginForm;
 use App\Http\Requests\RegisterForm;
-use App\Mail\ForgotMail;
+use App\Http\Requests\ResetPasswordRequest;
+use App\Mail\ResetPassword;
+use App\Models\Token;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 
@@ -71,10 +73,57 @@ class AuthController extends Controller
         $data = $request->only(["email"]);
         $user = User::where(["email" => $data["email"]])->first();
 
-        $password = uniqid();
-        $user->password = bcrypt($password);
-        $user->save();
-        Mail::to($user)->send(new ForgotMail($password));
+        $tokenString = random_bytes(20);
+        $tokenString = bin2hex($tokenString);
+
+        $checkToken = Token::where(["user_id" => $user['id']])->delete();
+
+        $token = Token::create([
+            "token" => $tokenString,
+            "user_id" => $user['id'],
+        ]);
+
+        $message = [
+            "token" => $tokenString,
+            "name" => $user['name']
+        ];
+
+        //$password = uniqid();
+        //$user->password = bcrypt($password);
+        //$user->save();
+        Mail::to($user->email)->send(new ResetPassword($message));
         return redirect(route("home"));
+    }
+
+    public function showResetForm($token)
+    {
+        $tokenReset = Token::where(["token" => $token])->first();
+
+        if ($tokenReset === null)
+        {
+            return redirect(route("home"));
+        }
+
+        return view("auth.reset", [
+        "token" => $tokenReset
+    ]);
+    }
+
+    public function resetPassword(ResetPasswordRequest $request, $token)
+    {
+        $password = $request->only(["password"]);
+        $checkToken = Token::where(["token" => $token])->first();
+
+        if ($checkToken === null)
+        {
+            return redirect(route("home"));
+        }
+
+        $user = User::where(["id" => $checkToken['user_id']])->first();
+        $user->password = bcrypt($password["password"]);
+        $user->save();
+        $checkToken->delete();
+
+        return redirect(route("login"));
     }
 }

@@ -2,6 +2,7 @@
     <nav class="w-full font-sans flex flex-col text-center content-center sm:flex-row sm:text-left sm:justify-between py-2 px-6 sm:items-baseline w-full container mx-auto">
         <div class="mb-2 sm:mb-0 inner">
 
+
             <a href="{{ route("home") }}" class="text-2xl no-underline text-stone-900 font-sans font-bold">Laravel магазин</a><br>
             <span class="text-xs text-grey-dark">Покупай легче!</span>
 

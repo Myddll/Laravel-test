@@ -14,7 +14,7 @@ class IndexController extends Controller
         //dd($products);
 
         return view('welcome', [
-            'products' =>$products,
+            'products' => $products,
         ]);
     }
 }

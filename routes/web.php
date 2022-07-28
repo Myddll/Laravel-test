@@ -35,6 +35,10 @@ Route::middleware("guest")->group(function (){
 
     Route::get('/forgot', [\App\Http\Controllers\AuthController::class, 'showForgotForm'])->name('forgot');
     Route::post('/forgot_process', [\App\Http\Controllers\AuthController::class, 'forgot'])->name('forgot_process');
+
+    Route::get('/reset_password/{token}', [\App\Http\Controllers\AuthController::class, 'showResetForm'])->name('reset_password');
+    Route::post('/reset_password/reset/{token}', [\App\Http\Controllers\AuthController::class, 'resetPassword'])->name('reset_password_process');
+
 });
 
 Route::get('/', [\App\Http\Controllers\IndexController::class, 'index'])->name('home');
